@@ -1,15 +1,18 @@
-version: '2'
+version: '1'
 
 services:
-  jira:
-    image: openkunlun/confluence
+  confluence:
+    image: openkunlun/docker-confluence:v1
     container_name: confluence
     ports:
        - '3090:8090'
        - '3091:8091'
+    volumes:
+      - /root/docker-volume/docker-confluence/:/var/atlassian/confluence/
+      - /root/docker-volume/docker-confluence/logs/:/var/atlassian/confluence/logs/
   postgresql:
     image: postgres
-    container_name: confluence_postgres
+    container_name: wiki_postgres
     ports:
       - '5434:5432'
     environment:
@@ -19,3 +22,5 @@ services:
       - 'POSTGRES_ENCODING=UTF8'
       - 'POSTGRES_COLLATE=C'
       - 'POSTGRES_COLLATE_TYPE=C'
+    volumes:
+      - /root/docker-volume/wiki_postgres/data/:/var/lib/postgresql/data/

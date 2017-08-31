@@ -13,9 +13,9 @@ services:
     ports:
       - '5434:5432'
     environment:
-      - 'POSTGRES_USER=wiki'
-      - 'POSTGRES_PASSWORD=wikijoker'
-      - 'POSTGRES_DB=wiki'
+      - 'POSTGRES_USER=openkunlun'
+      - 'POSTGRES_PASSWORD=#a1a4*6DK'
+      - 'POSTGRES_DB=kunlunconfluence'
       - 'POSTGRES_ENCODING=UTF8'
       - 'POSTGRES_COLLATE=C'
       - 'POSTGRES_COLLATE_TYPE=C'

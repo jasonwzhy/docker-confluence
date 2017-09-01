@@ -6,10 +6,10 @@ services:
     container_name: confluence
     ports:
        - '3090:8090'
-       - '3091:8091'
+      #  - '3091:8091'
     volumes:
-      - /root/docker-volume/docker-confluence/:/var/atlassian/confluence/
-      - /root/docker-volume/docker-confluence/logs/:/var/atlassian/confluence/logs/
+      - /root/docker-volume/docker-confluence/:/var/atlassian/confluence
+      - /root/docker-volume/docker-confluence/logs/:/opt/atlassian/confluence/logs
   postgresql:
     image: postgres
     container_name: wiki_postgres

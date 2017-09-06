@@ -2,7 +2,7 @@ version: '2'
 
 services:
   confluence:
-    image: openkunlun/docker-confluence:v1
+    image: openkunlun/docker-confluence:v6.3.4
     container_name: confluence
     ports:
        - '3090:8090'
@@ -10,17 +10,3 @@ services:
     volumes:
       - /root/docker-volume/docker-confluence/:/var/atlassian/confluence
       - /root/docker-volume/docker-confluence/logs/:/opt/atlassian/confluence/logs
-  postgresql:
-    image: postgres
-    container_name: wiki_postgres
-    ports:
-      - '5434:5432'
-    environment:
-      - 'POSTGRES_USER=openkunlun'
-      - 'POSTGRES_PASSWORD=#a1a4*6DK'
-      - 'POSTGRES_DB=kunlunconfluence'
-      - 'POSTGRES_ENCODING=UTF8'
-      - 'POSTGRES_COLLATE=C'
-      - 'POSTGRES_COLLATE_TYPE=C'
-    volumes:
-      - /root/docker-volume/wiki_postgres/data/:/var/lib/postgresql/data/

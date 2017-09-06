@@ -9,8 +9,7 @@ ENV JAVA_CACERTS  $JAVA_HOME/jre/lib/security/cacerts
 ENV CERTIFICATE   $CONF_HOME/certificate
 
 
-USER root:root
-
+USER daemon:daemon
 # Install Atlassian Confluence and hepler tools and setup initial home
 # directory structure.
 RUN set -x \
@@ -18,19 +17,19 @@ RUN set -x \
     && apt-get install --quiet --yes --no-install-recommends libtcnative-1 xmlstarlet \
     && apt-get clean \
     && mkdir -p                "${CONF_HOME}" \
-    # && chmod -R 700            "${CONF_HOME}" \
-    # && chown daemon:daemon     "${CONF_HOME}" \
+    && chmod -R 777            "${CONF_HOME}" \
+    && chown daemon:daemon     "${CONF_HOME}" \
     && mkdir -p                "${CONF_INSTALL}/conf" \
     && curl -Ls                "https://www.atlassian.com/software/confluence/downloads/binary/atlassian-confluence-${CONF_VERSION}.tar.gz" | tar -xz --directory "${CONF_INSTALL}" --strip-components=1 --no-same-owner \
     && curl -Ls                "https://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-java-5.1.38.tar.gz" | tar -xz --directory "${CONF_INSTALL}/confluence/WEB-INF/lib" --strip-components=1 --no-same-owner "mysql-connector-java-5.1.38/mysql-connector-java-5.1.38-bin.jar" \
-    # && chmod -R 700            "${CONF_INSTALL}/conf" \
-    # && chmod -R 700            "${CONF_INSTALL}/temp" \
-    # && chmod -R 700            "${CONF_INSTALL}/logs" \
-    # && chmod -R 700            "${CONF_INSTALL}/work" \
-    # && chown -R daemon:daemon  "${CONF_INSTALL}/conf" \
-    # && chown -R daemon:daemon  "${CONF_INSTALL}/temp" \
-    # && chown -R daemon:daemon  "${CONF_INSTALL}/logs" \
-    # && chown -R daemon:daemon  "${CONF_INSTALL}/work" \
+    && chmod -R 777            "${CONF_INSTALL}/conf" \
+    && chmod -R 777            "${CONF_INSTALL}/temp" \
+    && chmod -R 777            "${CONF_INSTALL}/logs" \
+    && chmod -R 777            "${CONF_INSTALL}/work" \
+    && chown -R daemon:daemon  "${CONF_INSTALL}/conf" \
+    && chown -R daemon:daemon  "${CONF_INSTALL}/temp" \
+    && chown -R daemon:daemon  "${CONF_INSTALL}/logs" \
+    && chown -R daemon:daemon  "${CONF_INSTALL}/work" \
     && echo -e                 "\nconfluence.home=$CONF_HOME" >> "${CONF_INSTALL}/confluence/WEB-INF/classes/confluence-init.properties" \
     && xmlstarlet              ed --inplace \
         --delete               "Server/@debug" \

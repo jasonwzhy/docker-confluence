@@ -3,13 +3,11 @@ FROM openjdk:8
 # Setup useful environment variables
 ENV CONF_HOME     /var/atlassian/confluence
 ENV CONF_INSTALL  /opt/atlassian/confluence
-ENV CONF_VERSION  6.3.3
+ENV CONF_VERSION  6.3.4
 
 ENV JAVA_CACERTS  $JAVA_HOME/jre/lib/security/cacerts
 ENV CERTIFICATE   $CONF_HOME/certificate
 
-
-USER daemon:daemon
 # Install Atlassian Confluence and hepler tools and setup initial home
 # directory structure.
 RUN set -x \
@@ -42,8 +40,12 @@ RUN set -x \
         --delete               "Server/Service/Engine/Host/Context/@debug" \
                                "${CONF_INSTALL}/conf/server.xml" \
     && touch -d "@0"           "${CONF_INSTALL}/conf/server.xml" \
-    # && chown daemon:daemon     "${JAVA_CACERTS}"
+    && chown daemon:daemon     "${JAVA_CACERTS}"
 
+# Use the default unprivileged account. This could be considered bad practice
+# on systems where multiple processes end up being executed by 'daemon' but
+# here we only ever run one process anyway.
+USER daemon:daemon
 
 # Expose default HTTP connector port.
 EXPOSE 8090
